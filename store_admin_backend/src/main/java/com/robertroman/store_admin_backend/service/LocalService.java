@@ -3,7 +3,7 @@ package com.robertroman.store_admin_backend.service;
 import com.robertroman.store_admin_backend.entity.Local;
 import com.robertroman.store_admin_backend.entity.Usuario;
 import com.robertroman.store_admin_backend.repository.LocalRepository;
-import com.robertroman.store_admin_backend.repository.UserRepository;
+import com.robertroman.store_admin_backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ public class LocalService {
     private LocalRepository localRepository;
 
     @Autowired
-    private UserRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     // Crear local
     public Local crearLocal(Local local, Long usuarioId) {

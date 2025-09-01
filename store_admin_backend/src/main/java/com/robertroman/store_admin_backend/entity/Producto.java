@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "productos")
-public class Product {
+public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,12 +55,12 @@ public class Product {
 
     // Relación con ProductoLocal (muchos a muchos a través de tabla intermedia)
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProductLocal> productoLocales = new HashSet<>();
+    private Set<ProductoLocal> productoLocales = new HashSet<>();
 
     // Constructores
-    public Product() {}
+    public Producto() {}
 
-    public Product(String nombre, String descripcion, BigDecimal precioBase, String categoria) {
+    public Producto(String nombre, String descripcion, BigDecimal precioBase, String categoria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precioBase = precioBase;
@@ -95,16 +95,16 @@ public class Product {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public Set<ProductLocal> getProductoLocales() { return productoLocales; }
-    public void setProductoLocales(Set<ProductLocal> productoLocales) { this.productoLocales = productoLocales; }
+    public Set<ProductoLocal> getProductoLocales() { return productoLocales; }
+    public void setProductoLocales(Set<ProductoLocal> productoLocales) { this.productoLocales = productoLocales; }
 
     // Métodos de utilidad
-    public void addProductoLocal(ProductLocal productoLocal) {
+    public void addProductoLocal(ProductoLocal productoLocal) {
         productoLocales.add(productoLocal);
         productoLocal.setProducto(this);
     }
 
-    public void removeProductoLocal(ProductLocal productoLocal) {
+    public void removeProductoLocal(ProductoLocal productoLocal) {
         productoLocales.remove(productoLocal);
         productoLocal.setProducto(null);
     }
@@ -113,7 +113,7 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product producto = (Product) o;
+        Producto producto = (Producto) o;
         return Objects.equals(id, producto.id);
     }
 

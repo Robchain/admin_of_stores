@@ -77,14 +77,14 @@ public class VentaService {
     // Crear detalle de venta y actualizar stock
     private DetalleVenta crearDetalleVenta(Venta venta, ItemVentaRequest item) {
         // Buscar el producto en el local
-        Optional<ProductLocal> productoLocalOpt = productoLocalRepository
+        Optional<ProductoLocal> productoLocalOpt = productoLocalRepository
                 .findByProductoIdAndLocalId(item.getProductoId(), venta.getLocal().getId());
 
         if (productoLocalOpt.isEmpty()) {
             throw new RuntimeException("Producto con ID " + item.getProductoId() + " no está disponible en este local");
         }
 
-        ProductLocal productoLocal = productoLocalOpt.get();
+        ProductoLocal productoLocal = productoLocalOpt.get();
 
         // Verificar stock suficiente
         if (!productoLocal.tieneStockSuficiente(item.getCantidad())) {
@@ -169,7 +169,7 @@ public class VentaService {
         // Devolver stock de todos los items
         List<DetalleVenta> detalles = detalleVentaRepository.findByVentaId(ventaId);
         for (DetalleVenta detalle : detalles) {
-            ProductLocal productoLocal = detalle.getProductoLocal();
+            ProductoLocal productoLocal = detalle.getProductoLocal();
             productoLocal.aumentarStock(detalle.getCantidad());
             productoLocalRepository.save(productoLocal);
         }

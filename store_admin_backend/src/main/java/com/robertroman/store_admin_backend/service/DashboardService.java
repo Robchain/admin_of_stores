@@ -1,6 +1,7 @@
 package com.robertroman.store_admin_backend.service;
 
-import com.robertroman.store_admin_backend.entity.ProductLocal;
+import com.robertroman.store_admin_backend.entity.Producto;
+import com.robertroman.store_admin_backend.entity.ProductoLocal;
 import com.robertroman.store_admin_backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,9 +49,9 @@ public class DashboardService {
         dashboard.setValorInventario(BigDecimal.ZERO); // Simplificar por ahora
 
         // Obtener productos del local y calcular estadísticas en memoria
-        List<ProductLocal> productos = productoLocalRepository.findByLocalIdAndActivoTrue(localId);
+        List<ProductoLocal> productos = productoLocalRepository.findByLocalIdAndActivoTrue(localId);
         dashboard.setProductosStockBajo((int) productos.stream()
-                .filter(ProductLocal::estaEnStockMinimo).count());
+                .filter(ProductoLocal::estaEnStockMinimo).count());
         dashboard.setProductosSinStock((int) productos.stream()
                 .filter(p -> p.getStock() == 0).count());
 
@@ -71,7 +72,7 @@ public class DashboardService {
                 .limit(10) // Top 10
                 .map(row -> {
                     ProductoVendido pv = new ProductoVendido();
-                    pv.setProductoLocal((com.robertroman.store_admin_backend.entity.ProductLocal) row[0]);
+                    pv.setProductoLocal((com.robertroman.store_admin_backend.entity.ProductoLocal) row[0]);
                     pv.setCantidadVendida(((Number) row[1]).longValue());
                     return pv;
                 })
@@ -99,7 +100,7 @@ public class DashboardService {
         localService.validarAccesoLocal(localId, usuarioId);
 
         // Obtener productos del local y filtrar en memoria
-        List<ProductLocal> productos = productoLocalRepository.findByLocalIdAndActivoTrue(localId);
+        List<ProductoLocal> productos = productoLocalRepository.findByLocalIdAndActivoTrue(localId);
 
         return productos.stream()
                 .filter(pl -> pl.getStock() <= pl.getStockMinimo())
@@ -151,7 +152,7 @@ public class DashboardService {
         // Validar acceso al local
         localService.validarAccesoLocal(localId, usuarioId);
 
-        List<com.robertroman.store_admin_backend.entity.ProductLocal> productos =
+        List<com.robertroman.store_admin_backend.entity.ProductoLocal> productos =
                 productoLocalRepository.findByLocalIdAndActivoTrue(localId);
 
         return productos.stream()
@@ -222,11 +223,11 @@ public class DashboardService {
     }
 
     public static class ProductoVendido {
-        private com.robertroman.store_admin_backend.entity.ProductLocal productoLocal;
+        private com.robertroman.store_admin_backend.entity.ProductoLocal productoLocal;
         private Long cantidadVendida;
 
-        public com.robertroman.store_admin_backend.entity.ProductLocal getProductoLocal() { return productoLocal; }
-        public void setProductoLocal(com.robertroman.store_admin_backend.entity.ProductLocal productoLocal) { this.productoLocal = productoLocal; }
+        public com.robertroman.store_admin_backend.entity.ProductoLocal getProductoLocal() { return productoLocal; }
+        public void setProductoLocal(com.robertroman.store_admin_backend.entity.ProductoLocal productoLocal) { this.productoLocal = productoLocal; }
 
         public Long getCantidadVendida() { return cantidadVendida; }
         public void setCantidadVendida(Long cantidadVendida) { this.cantidadVendida = cantidadVendida; }
@@ -248,12 +249,12 @@ public class DashboardService {
     }
 
     public static class AlertaStock {
-        private com.robertroman.store_admin_backend.entity.ProductLocal productoLocal;
+        private com.robertroman.store_admin_backend.entity.ProductoLocal productoLocal;
         private String tipoAlerta;
         private String mensaje;
 
-        public com.robertroman.store_admin_backend.entity.ProductLocal getProductoLocal() { return productoLocal; }
-        public void setProductoLocal(com.robertroman.store_admin_backend.entity.ProductLocal productoLocal) { this.productoLocal = productoLocal; }
+        public com.robertroman.store_admin_backend.entity.ProductoLocal getProductoLocal() { return productoLocal; }
+        public void setProductoLocal(com.robertroman.store_admin_backend.entity.ProductoLocal productoLocal) { this.productoLocal = productoLocal; }
 
         public String getTipoAlerta() { return tipoAlerta; }
         public void setTipoAlerta(String tipoAlerta) { this.tipoAlerta = tipoAlerta; }
@@ -287,13 +288,13 @@ public class DashboardService {
     }
 
     public static class RentabilidadProducto {
-        private com.robertroman.store_admin_backend.entity.ProductLocal productoLocal;
+        private com.robertroman.store_admin_backend.entity.ProductoLocal productoLocal;
         private Long cantidadVendida;
         private BigDecimal ingresosGenerados;
         private BigDecimal margenTotal;
 
-        public com.robertroman.store_admin_backend.entity.ProductLocal getProductoLocal() { return productoLocal; }
-        public void setProductoLocal(com.robertroman.store_admin_backend.entity.ProductLocal productoLocal) { this.productoLocal = productoLocal; }
+        public com.robertroman.store_admin_backend.entity.ProductoLocal getProductoLocal() { return productoLocal; }
+        public void setProductoLocal(com.robertroman.store_admin_backend.entity.ProductoLocal productoLocal) { this.productoLocal = productoLocal; }
 
         public Long getCantidadVendida() { return cantidadVendida; }
         public void setCantidadVendida(Long cantidadVendida) { this.cantidadVendida = cantidadVendida; }

@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "productos_locales",
         uniqueConstraints = @UniqueConstraint(columnNames = {"producto_id", "local_id"}))
-public class ProductLocal {
+public class ProductoLocal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class ProductLocal {
     // Relación con Producto
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = false)
-    private Product producto;
+    private Producto producto;
 
     // Relación con Local
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,9 +51,9 @@ public class ProductLocal {
     private LocalDateTime updatedAt;
 
     // Constructores
-    public ProductLocal() {}
+    public ProductoLocal() {}
 
-    public ProductLocal(Product product, Local local, Integer stock, BigDecimal precioVenta) {
+    public ProductoLocal(Producto product, Local local, Integer stock, BigDecimal precioVenta) {
         this.producto = producto;
         this.local = local;
         this.stock = stock;
@@ -64,8 +64,8 @@ public class ProductLocal {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Product getProducto() { return producto; }
-    public void setProducto(Product producto) { this.producto = producto; }
+    public Producto getProducto() { return producto; }
+    public void setProducto(Producto producto) { this.producto = producto; }
 
     public Local getLocal() { return local; }
     public void setLocal(Local local) { this.local = local; }
@@ -113,7 +113,7 @@ public class ProductLocal {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductLocal that = (ProductLocal) o;
+        ProductoLocal that = (ProductoLocal) o;
         return Objects.equals(id, that.id);
     }
 

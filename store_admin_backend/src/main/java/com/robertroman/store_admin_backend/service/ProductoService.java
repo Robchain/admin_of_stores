@@ -1,6 +1,6 @@
 package com.robertroman.store_admin_backend.service;
 
-import com.robertroman.store_admin_backend.entity.Product;
+import com.robertroman.store_admin_backend.entity.Producto;
 import com.robertroman.store_admin_backend.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class ProductoService {
     private ProductoRepository productoRepository;
 
     // Crear producto
-    public Product crearProducto(Product producto) {
+    public Producto crearProducto(Producto producto) {
         // Validar que no exista el SKU si está presente
         if (producto.getSku() != null && productoRepository.existsBySku(producto.getSku())) {
             throw new RuntimeException("Ya existe un producto con el SKU: " + producto.getSku());
@@ -27,14 +27,14 @@ public class ProductoService {
     }
 
     // Actualizar producto
-    public Product actualizarProducto(Long id, Product productoActualizado) {
-        Optional<Product> productoExistente = productoRepository.findById(id);
+    public Producto actualizarProducto(Long id, Producto productoActualizado) {
+        Optional<Producto> productoExistente = productoRepository.findById(id);
 
         if (productoExistente.isEmpty()) {
             throw new RuntimeException("Producto no encontrado con ID: " + id);
         }
 
-        Product producto = productoExistente.get();
+        Producto producto = productoExistente.get();
 
         // Validar SKU solo si cambió
         if (productoActualizado.getSku() != null &&
@@ -55,27 +55,27 @@ public class ProductoService {
     }
 
     // Obtener producto por ID
-    public Optional<Product> obtenerPorId(Long id) {
+    public Optional<Producto> obtenerPorId(Long id) {
         return productoRepository.findById(id);
     }
 
     // Obtener todos los productos activos
-    public List<Product> obtenerProductosActivos() {
+    public List<Producto> obtenerProductosActivos() {
         return productoRepository.findByActivoTrue();
     }
 
     // Buscar productos por nombre
-    public List<Product> buscarPorNombre(String nombre) {
+    public List<Producto> buscarPorNombre(String nombre) {
         return productoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
     // Obtener productos por categoría
-    public List<Product> obtenerPorCategoria(String categoria) {
+    public List<Producto> obtenerPorCategoria(String categoria) {
         return productoRepository.findByCategoriaAndActivoTrue(categoria);
     }
 
     // Obtener producto por SKU
-    public Optional<Product> obtenerPorSku(String sku) {
+    public Optional<Producto> obtenerPorSku(String sku) {
         return productoRepository.findBySku(sku);
     }
 
@@ -85,15 +85,15 @@ public class ProductoService {
     }
 
     // Obtener productos sin asignar a locales
-    public List<Product> obtenerProductosSinAsignar() {
+    public List<Producto> obtenerProductosSinAsignar() {
         return productoRepository.findProductosSinAsignar();
     }
 
     // Desactivar producto (soft delete)
     public void desactivarProducto(Long id) {
-        Optional<Product> productoOpt = productoRepository.findById(id);
+        Optional<Producto> productoOpt = productoRepository.findById(id);
         if (productoOpt.isPresent()) {
-            Product producto = productoOpt.get();
+            Producto producto = productoOpt.get();
             producto.setActivo(false);
             productoRepository.save(producto);
         } else {
@@ -103,9 +103,9 @@ public class ProductoService {
 
     // Activar producto
     public void activarProducto(Long id) {
-        Optional<Product> productoOpt = productoRepository.findById(id);
+        Optional<Producto> productoOpt = productoRepository.findById(id);
         if (productoOpt.isPresent()) {
-            Product producto = productoOpt.get();
+            Producto producto = productoOpt.get();
             producto.setActivo(true);
             productoRepository.save(producto);
         } else {
@@ -119,7 +119,7 @@ public class ProductoService {
     }
 
     // Obtener todos los productos (incluye inactivos)
-    public List<Product> obtenerTodos() {
+    public List<Producto> obtenerTodos() {
         return productoRepository.findAll();
     }
 

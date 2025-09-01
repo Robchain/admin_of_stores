@@ -4,7 +4,7 @@ import com.robertroman.store_admin_backend.dto.AuthResponse;
 import com.robertroman.store_admin_backend.dto.LoginRequest;
 import com.robertroman.store_admin_backend.dto.RegisterRequest;
 import com.robertroman.store_admin_backend.entity.Usuario;
-import com.robertroman.store_admin_backend.repository.UserRepository;
+import com.robertroman.store_admin_backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UsuarioService {
 
     @Autowired
-    private UserRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

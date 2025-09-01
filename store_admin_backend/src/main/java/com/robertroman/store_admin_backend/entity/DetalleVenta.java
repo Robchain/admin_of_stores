@@ -22,7 +22,7 @@ public class DetalleVenta {
     // Relación con ProductoLocal (el producto específico del local)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_local_id", nullable = false)
-    private ProductLocal productoLocal;
+    private ProductoLocal productoLocal;
 
     @NotNull(message = "La cantidad es obligatoria")
     @Column(name = "cantidad", nullable = false)
@@ -42,7 +42,7 @@ public class DetalleVenta {
     // Constructores
     public DetalleVenta() {}
 
-    public DetalleVenta(Venta venta, ProductLocal productoLocal, Integer cantidad, BigDecimal precioUnitario) {
+    public DetalleVenta(Venta venta, ProductoLocal productoLocal, Integer cantidad, BigDecimal precioUnitario) {
         this.venta = venta;
         this.productoLocal = productoLocal;
         this.cantidad = cantidad;
@@ -57,8 +57,8 @@ public class DetalleVenta {
     public Venta getVenta() { return venta; }
     public void setVenta(Venta venta) { this.venta = venta; }
 
-    public ProductLocal getProductoLocal() { return productoLocal; }
-    public void setProductoLocal(ProductLocal productoLocal) { this.productoLocal = productoLocal; }
+    public ProductoLocal getProductoLocal() { return productoLocal; }
+    public void setProductoLocal(ProductoLocal productoLocal) { this.productoLocal = productoLocal; }
 
     public Integer getCantidad() { return cantidad; }
     public void setCantidad(Integer cantidad) {

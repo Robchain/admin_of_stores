@@ -54,7 +54,7 @@ public class Local {
 
     // Relación con ProductoLocal (muchos a muchos a través de tabla intermedia)
     @OneToMany(mappedBy = "local", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProductLocal> productoLocales = new HashSet<>();
+    private Set<ProductoLocal> productoLocales = new HashSet<>();
 
     // Relación con Ventas
     @OneToMany(mappedBy = "local", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -97,19 +97,19 @@ public class Local {
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
-    public Set<ProductLocal> getProductoLocales() { return productoLocales; }
-    public void setProductoLocales(Set<ProductLocal> productoLocales) { this.productoLocales = productoLocales; }
+    public Set<ProductoLocal> getProductoLocales() { return productoLocales; }
+    public void setProductoLocales(Set<ProductoLocal> productoLocales) { this.productoLocales = productoLocales; }
 
     public Set<Venta> getVentas() { return ventas; }
     public void setVentas(Set<Venta> ventas) { this.ventas = ventas; }
 
     // Métodos de utilidad
-    public void addProductoLocal(ProductLocal productoLocal) {
+    public void addProductoLocal(ProductoLocal productoLocal) {
         productoLocales.add(productoLocal);
         productoLocal.setLocal(this);
     }
 
-    public void removeProductoLocal(ProductLocal productoLocal) {
+    public void removeProductoLocal(ProductoLocal productoLocal) {
         productoLocales.remove(productoLocal);
         productoLocal.setLocal(null);
     }

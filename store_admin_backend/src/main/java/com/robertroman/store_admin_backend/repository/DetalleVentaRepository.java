@@ -1,7 +1,7 @@
 package com.robertroman.store_admin_backend.repository;
 
 import com.robertroman.store_admin_backend.entity.DetalleVenta;
-import com.robertroman.store_admin_backend.entity.ProductLocal;
+import com.robertroman.store_admin_backend.entity.ProductoLocal;
 import com.robertroman.store_admin_backend.entity.Venta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,7 +21,7 @@ public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long
     List<DetalleVenta> findByVentaId(Long ventaId);
 
     // Buscar detalles por producto local
-    List<DetalleVenta> findByProductoLocal(ProductLocal productoLocal);
+    List<DetalleVenta> findByProductoLocal(ProductoLocal productoLocal);
 
     // Detalles de ventas por producto en un local
     List<DetalleVenta> findByProductoLocalId(Long productoLocalId);
