@@ -44,7 +44,7 @@ public class VentaService {
 
         Local local = localOpt.get();
 
-        // Crear la venta
+        // Crear la venta con valores iniciales
         Venta venta = new Venta();
         venta.setLocal(local);
         venta.setMetodoPago(request.getMetodoPago());
@@ -52,6 +52,10 @@ public class VentaService {
         venta.setImpuestos(request.getImpuestos() != null ? request.getImpuestos() : BigDecimal.ZERO);
         venta.setObservaciones(request.getObservaciones());
         venta.setEstado(Venta.EstadoVenta.PENDIENTE);
+
+        // IMPORTANTE: Inicializar total en ZERO para evitar el error de validación
+        venta.setTotal(BigDecimal.ZERO);
+        venta.setSubtotal(BigDecimal.ZERO);
 
         // Generar número de factura único
         venta.setNumeroFactura(generarNumeroFactura(request.getLocalId()));
@@ -63,14 +67,19 @@ public class VentaService {
         BigDecimal subtotal = BigDecimal.ZERO;
         for (ItemVentaRequest item : request.getItems()) {
             DetalleVenta detalle = crearDetalleVenta(venta, item);
+            venta.addDetalle(detalle); // Agregar detalle a la venta
             subtotal = subtotal.add(detalle.getSubtotal());
         }
 
-        // Calcular totales
+        // Calcular totales finales
         venta.setSubtotal(subtotal);
-        venta.setTotal(subtotal.add(venta.getImpuestos()).subtract(venta.getDescuento()));
+        BigDecimal totalFinal = subtotal
+                .add(venta.getImpuestos())
+                .subtract(venta.getDescuento());
+        venta.setTotal(totalFinal);
         venta.setEstado(Venta.EstadoVenta.COMPLETADA);
 
+        // Guardar venta con totales calculados
         return ventaRepository.save(venta);
     }
 
@@ -96,8 +105,14 @@ public class VentaService {
         BigDecimal precioUnitario = item.getPrecioUnitario() != null ?
                 item.getPrecioUnitario() : productoLocal.getPrecioVenta();
 
-        DetalleVenta detalle = new DetalleVenta(venta, productoLocal, item.getCantidad(), precioUnitario);
+        DetalleVenta detalle = new DetalleVenta();
+        detalle.setVenta(venta);
+        detalle.setProductoLocal(productoLocal);
+        detalle.setCantidad(item.getCantidad());
+        detalle.setPrecioUnitario(precioUnitario);
         detalle.setDescuentoItem(item.getDescuentoItem() != null ? item.getDescuentoItem() : BigDecimal.ZERO);
+
+        // Calcular subtotal
         detalle.calcularSubtotal();
 
         // Reducir stock automáticamente
