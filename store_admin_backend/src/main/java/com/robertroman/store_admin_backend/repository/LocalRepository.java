@@ -22,7 +22,7 @@ public interface LocalRepository extends JpaRepository<Local, Long> {
     List<Local> findByActivoTrue();
 
     // Buscar por nombre (case insensitive)
-    List<Local> findByNombreContainingIgnoreCaseAndActivoTrue(String nombre);
+    List<Local> findByNombreContainingIgnoreCaseAndActivoTrue(String nombre); 
 
     // Buscar por ciudad
     List<Local> findByCiudadAndActivoTrue(String ciudad);
