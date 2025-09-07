@@ -1,5 +1,6 @@
 package com.robertroman.store_admin_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -50,14 +51,17 @@ public class Local {
     // Relación con Usuario (muchos locales pueden ser gestionados por un usuario)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonIgnore // Evitar serialización del usuario
     private Usuario usuario;
 
     // Relación con ProductoLocal (muchos a muchos a través de tabla intermedia)
     @OneToMany(mappedBy = "local", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore // Evitar serialización de productos para prevenir referencia circular
     private Set<ProductoLocal> productoLocales = new HashSet<>();
 
     // Relación con Ventas
     @OneToMany(mappedBy = "local", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore // Evitar serialización de ventas
     private Set<Venta> ventas = new HashSet<>();
 
     // Constructores

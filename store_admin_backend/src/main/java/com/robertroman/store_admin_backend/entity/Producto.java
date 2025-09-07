@@ -1,5 +1,6 @@
 package com.robertroman.store_admin_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -55,6 +56,7 @@ public class Producto {
 
     // Relación con ProductoLocal (muchos a muchos a través de tabla intermedia)
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore // Evitar serialización para prevenir referencia circular
     private Set<ProductoLocal> productoLocales = new HashSet<>();
 
     // Constructores

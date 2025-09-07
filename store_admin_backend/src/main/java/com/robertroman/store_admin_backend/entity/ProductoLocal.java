@@ -1,5 +1,6 @@
 package com.robertroman.store_admin_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,14 +19,16 @@ public class ProductoLocal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relación con Producto
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Relación con Producto - Solo serializar campos básicos
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "producto_id", nullable = false)
+    @JsonIgnoreProperties({"productoLocales", "createdAt", "updatedAt"}) // Evitar referencia circular
     private Producto producto;
 
-    // Relación con Local
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Relación con Local - Solo serializar campos básicos
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "local_id", nullable = false)
+    @JsonIgnoreProperties({"productoLocales", "ventas", "usuario", "createdAt", "updatedAt"}) // Evitar referencia circular
     private Local local;
 
     @NotNull(message = "El stock es obligatorio")
@@ -53,7 +56,7 @@ public class ProductoLocal {
     // Constructores
     public ProductoLocal() {}
 
-    public ProductoLocal(Producto product, Local local, Integer stock, BigDecimal precioVenta) {
+    public ProductoLocal(Producto producto, Local local, Integer stock, BigDecimal precioVenta) {
         this.producto = producto;
         this.local = local;
         this.stock = stock;
